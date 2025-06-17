@@ -1,0 +1,25 @@
+{
+  "root": [
+    "./vite.config.ts",
+    "./src/App.vue",
+    "./src/main.ts",
+    "./src/shims-router.d.ts",
+    "./src/vite-env.d.ts",
+    "./src/components/Navbar.vue",
+    "./src/pages/auth/ChangePassword.vue",
+    "./src/pages/auth/Completed.vue",
+    "./src/pages/auth/EmailVerification.vue",
+    "./src/pages/auth/ForgotPassword.vue",
+    "./src/pages/auth/Login.vue",
+    "./src/pages/auth/Onbording.vue",
+    "./src/pages/auth/ResetPin.vue",
+    "./src/pages/auth/Signup.vue",
+    "./src/pages/onbording/Profession.vue",
+    "./src/pages/onbording/Summary.vue",
+    "./src/pages/onbording/UploadResume.vue",
+    "./src/pages/onbording/User.vue",
+    "./src/router/index.js"
+  ],
+  "errors": true,
+  "version": "5.8.3"
+}
