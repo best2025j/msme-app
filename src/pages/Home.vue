@@ -13,13 +13,13 @@ const signup = () => {
 </script>
 
 <template>
-  <div class="p-10 bg-white w-[80%] mx-auto h-[700px]">
-    <div class="max-w-[584px] h-full mx-auto items-center flex flex-col justify-center">
-      <h1 class="text-3xl text-center font-medium mb-10">
+  <div class="p-10 bg-white md:w-[80%] mx-auto h-full md:h-[700px]">
+    <div class="md:max-w-[584px] h-full mx-auto items-center flex flex-col justify-center">
+      <h1 class="md:text-3xl text-center font-medium mb-10">
         You are joining as a?
       </h1>
 
-      <div class="flex gap-6 w-full">
+      <div class="flex md:flex-row flex-col gap-6 w-full">
         <!-- Recruiter Card -->
         <div
           @click="signup"

@@ -8,8 +8,8 @@ const goToResetPin = () => {
 </script>
 
 <template>
-  <div class="p-13 bg-white w-[80%] h-[700px] mx-auto flex gap-6">
-    <div class="w-[50%]">
+  <div class="p-6 md:p-13 bg-white w-full md:w-[80%] md:h-[700px] mx-auto flex gap-6">
+    <div class="md:w-[50%]">
       <div
         class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
       >
@@ -43,7 +43,7 @@ const goToResetPin = () => {
     </div>
 
     <!--  -->
-    <div class="w-[50%]">
+    <div class="w-1/2 md:block hidden">
       <div class="bg-[#FAFAFA] h-full relative">
         <div class="transform translate-x-6 py-14">
           <h1 class="text-3xl font-normal w-[242px] leading-[100%]">

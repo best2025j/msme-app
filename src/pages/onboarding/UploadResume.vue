@@ -61,7 +61,9 @@ const finishUpload = () => {
   }
   //   alert(`Upload of "${file.value?.name}" completed`);
   // You can add post-upload logic here
+
   resetUpload();
+  router.push("/onboarding/profession"); // ✅ navigate properly
 };
 
 const resetUpload = () => {

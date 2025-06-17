@@ -3,7 +3,7 @@
     class="bg-svg-background w-full flex items-center justify-center"
   >
     <div class="flex flex-col items-center space-y-2">
-      <h1 class="text-3xl font-normal text-gray-900">
+      <h1 class="md:text-3xl font-normal text-gray-900">
         Congratulations!! You have completed this task
       </h1>
 

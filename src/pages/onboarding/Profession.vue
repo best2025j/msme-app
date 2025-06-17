@@ -4,7 +4,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-
 // --- Step Management ---
 const totalSteps = 7;
 const currentStep = ref(1);
@@ -225,12 +224,12 @@ const resetNewCertification = () => {
 </script>
 
 <template>
-  <div class="bg-white w-[80%] h-full mx-auto flex flex-col">
-    <div class="flex justify-end pr-8 pt-10">
+  <div class="bg-white w-full md:w-[80%] h-full mx-auto flex flex-col">
+    <div class="flex justify-end pr-8 md:pt-10">
       <a href="" class="text-sm underline">Skip for now</a>
     </div>
 
-    <div class="font-semibold text-xs pl-16">
+    <div class="font-semibold text-xs md:pl-16 pl-6">
       {{ currentStep }} /{{ totalSteps }}
     </div>
 
@@ -238,12 +237,14 @@ const resetNewCertification = () => {
       class="mb-6 px-6 flex flex-col items-start justify-center rounded h-full"
     >
       <template v-if="currentStep === 1">
-        <div class="flex justify-between w-full pt-24 gap-6">
-          <div class="w-[50%]">
+        <div
+          class="flex flex-col md:flex-row justify-between w-full pt-10 md:pt-24 gap-6"
+        >
+          <div class="md:w-[50%]">
             <div
               class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
             >
-              <h1 class="text-3xl font-normal">
+              <h1 class="text-base md:text-3xl font-normal">
                 Let’s start your career glow-up!
               </h1>
 
@@ -294,11 +295,13 @@ const resetNewCertification = () => {
           </div>
 
           <!--  -->
-          <div class="w-[50%]">
+          <div class="md:w-[50%] w-full">
             <div
               class="bg-[#FAFAFA] py-4 flex flex-col justify-center items-center relative"
             >
-              <div class="bg-white w-[80%] p-4 border border-gray-500 rounded">
+              <div
+                class="bg-white md:w-[80%] p-4 border border-gray-500 rounded"
+              >
                 <div
                   class="flex items-center gap-4 mx-auto w-full justify-between h-full"
                 >
@@ -313,19 +316,21 @@ const resetNewCertification = () => {
                       />
                     </div>
 
-                    <h1 class="text-lg font-medium text-black leading-[100%]">
+                    <h1
+                      class="md:text-lg text-sm font-medium text-black md:leading-[100%]"
+                    >
                       Product designer
                     </h1>
                   </div>
 
                   <button
-                    class="text-sm bg-black px-4 p-2 text-white rounded-full"
+                    class="text-sm bg-black md:px-4 p-2 text-white rounded-full"
                   >
                     Match: 96%
                   </button>
                 </div>
 
-                <div class="py-4 flex gap-4">
+                <div class="py-4 flex md:gap-4">
                   <!--  -->
                   <div
                     class="flex trasform bottom-38 cursor-pointer z-20 items-center shadow w-full rounded-full justify-center"
@@ -337,7 +342,9 @@ const resetNewCertification = () => {
                         alt="Briefcase icon"
                       />
                     </span>
-                    <h1 class="text-xs font-semibold">Real-estate</h1>
+                    <h1 class="text-[10px] md:text-xs font-semibold">
+                      Real-estate
+                    </h1>
                   </div>
                   <!--  -->
                   <div
@@ -350,7 +357,9 @@ const resetNewCertification = () => {
                         alt="Briefcase icon"
                       />
                     </span>
-                    <h1 class="text-xs font-semibold">Actively hiring</h1>
+                    <h1 class="text-[10px] md:text-xs font-semibold">
+                      Actively hiring
+                    </h1>
                   </div>
                   <!--  -->
                   <div
@@ -363,7 +372,7 @@ const resetNewCertification = () => {
                         alt="Briefcase icon"
                       />
                     </span>
-                    <h1 class="text-xs font-semibold">Remote</h1>
+                    <h1 class="text-[10px] md:text-xs font-semibold">Remote</h1>
                   </div>
                 </div>
 
@@ -393,8 +402,8 @@ const resetNewCertification = () => {
 
       <!--  -->
       <template v-else-if="currentStep === 2">
-        <div class="flex justify-between w-full gap-6">
-          <div class="w-[50%]">
+        <div class="flex flex-col md:flex-row justify-between w-full md:gap-6">
+          <div class="md:w-[50%]">
             <div
               class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
             >
@@ -457,9 +466,9 @@ const resetNewCertification = () => {
                 <div class="">
                   <label class="block text-sm font-medium mb-1">Links</label>
 
-                  <div class="flex justify-between text-sm">
+                  <div class="flex text-xs justify-between md:text-sm">
                     <button
-                      class="bg-[#FAFAFA] cursor-pointer flex items-center gap-2 px-4 py-2 rounded transition"
+                      class="bg-[#FAFAFA] cursor-pointer flex items-center gap-2 md:px-4 px-2 py-2 rounded transition"
                       type="button"
                     >
                       <span>
@@ -468,7 +477,7 @@ const resetNewCertification = () => {
                       LinkedIn
                     </button>
                     <button
-                      class="bg-[#FAFAFA] cursor-pointer flex items-center gap-2 px-4 py-2 rounded transition"
+                      class="bg-[#FAFAFA] cursor-pointer flex items-center gap-2 md:px-4 px-2 py-2 rounded transition"
                       type="button"
                     >
                       <span>
@@ -477,7 +486,7 @@ const resetNewCertification = () => {
                       Instagram
                     </button>
                     <button
-                      class="bg-[#FAFAFA] cursor-pointer flex items-center gap-2 px-4 py-2 rounded transition"
+                      class="bg-[#FAFAFA] cursor-pointer flex items-center gap-2 md:px-4 px-2 py-2 rounded transition"
                       type="button"
                     >
                       <span>
@@ -492,7 +501,7 @@ const resetNewCertification = () => {
           </div>
 
           <!--  -->
-          <div class="w-[50%]">
+          <div class="md:w-[50%]">
             <div
               class="bg-[#FAFAFA] py-4 flex flex-col justify-center items-center relative"
             >
@@ -505,7 +514,7 @@ const resetNewCertification = () => {
               </div>
 
               <div
-                class="bg-white w-[80%] -mt-8 p-4 border border-gray-300 rounded"
+                class="bg-white md:w-[80%] w-full -mt-8 p-4 border border-gray-300 rounded"
               >
                 <div
                   class="flex items-center gap-4 mx-auto w-full justify-center h-full"
@@ -522,12 +531,12 @@ const resetNewCertification = () => {
                     </div>
 
                     <h1
-                      class="text-lg pt-4 font-medium text-black leading-[100%]"
+                      class="md:text-lg pt-4 font-medium text-black leading-[100%]"
                     >
                       Product designer
                     </h1>
 
-                    <p class="text-sm font-medium text-black leading-[100%]">
+                    <p class="text-xs md:text-sm font-medium text-black leading-[100%]">
                       Software engineer, Frontend developer, Full stack
                       developer
                     </p>
@@ -583,12 +592,12 @@ const resetNewCertification = () => {
 
       <!--  -->
       <template v-else-if="currentStep === 3">
-        <div class="flex justify-between w-full gap-6">
-          <div class="w-[50%]">
+        <div class="flex flex-col md:flex-row justify-between w-full gap-6">
+          <div class="md:w-[50%]">
             <div
               class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
             >
-              <h1 class="text-3xl font-normal">Relevant work experience</h1>
+              <h1 class="text-base md:text-3xl font-normal">Relevant work experience</h1>
 
               <div class="py-6 space-y-4">
                 <div
@@ -664,10 +673,10 @@ const resetNewCertification = () => {
                   class="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
                 >
                   <div
-                    class="bg-white p-6 rounded-xl w-full max-w-xl max-h-[90vh] overflow-auto"
+                    class="bg-white p-6 md:rounded-xl w-full md:max-w-xl md:max-h-[90vh] overflow-auto"
                   >
                     <div
-                      class="w-[80%] mx-auto justify-center items-start flex flex-col"
+                      class="w-full md:w-[80%] mx-auto justify-center items-start flex flex-col"
                     >
                       <div class="flex justify-end w-full">
                         <button
@@ -683,7 +692,9 @@ const resetNewCertification = () => {
                         </button>
                       </div>
 
-                      <h2 class="text-lg font-semibold mb-4">Add Experience</h2>
+                      <h2 class="md:text-lg font-semibold mb-4">
+                        Add Experience
+                      </h2>
 
                       <form @submit.prevent="addExperience" class="space-y-4">
                         <div>
@@ -791,11 +802,11 @@ const resetNewCertification = () => {
           <!--  -->
           <div class="w-[50%]">
             <div
-              class="bg-[] py-4 flex flex-col justify-center items-center relative"
+              class=" py-4 flex w-[330px] h-full flex-col justify-center items-center relative"
             >
               <img
                 src="../../assets/images/team.png"
-                class="w-full h-full object-cover"
+                class="w-full h-auto object-cover"
                 alt=""
               />
             </div>
@@ -1389,7 +1400,7 @@ const resetNewCertification = () => {
       </template>
 
       <!-- buttons for steps -->
-      <div class="flex justify-between w-[45%] pl-10">
+      <div class="flex justify-between md:w-[45%] w-full md:pl-10">
         <button
           v-if="currentStep !== 1"
           @click="prevStep"

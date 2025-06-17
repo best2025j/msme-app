@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="p-13 bg-white w-[80%] mx-auto flex">
-    <div class="w-1/2">
+  <div class="md:p-13 p-6 bg-white w-fill md:w-[80%] mx-auto flex">
+    <div class="md:w-1/2">
       <div class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3">
-        <h1 class="text-3xl font-normal">It’s nice to have you back!</h1>
+        <h1 class="text-base md:text-3xl font-normal">It’s nice to have you back!</h1>
         <p class="font-normal text-sm">
           A place to connect with the right opportunities to advance your
           career.
@@ -67,7 +67,7 @@
     </div>
 
     <!-- side image done -->
-    <div class="w-1/2">
+    <div class="w-1/2 md:block hidden">
       <div class="relative">
         <img
           src="../../assets/images/image.png"

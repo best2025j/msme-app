@@ -40,8 +40,10 @@ const goToChangePassword = () => {
 </script>
 
 <template>
-  <div class="p-13 bg-white w-[80%] h-[900px] mx-auto flex gap-6">
-    <div class="w-[60%]">
+  <div
+    class="p-4 md:p-13 bg-white w-full md:w-[80%] md:h-[700px] mx-auto flex gap-6"
+  >
+    <div class="md:w-[50%]">
       <div
         class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
       >
@@ -58,7 +60,7 @@ const goToChangePassword = () => {
               :key="index"
               type="text"
               maxlength="1"
-              class="w-20 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-16 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               v-model="pin[index - 1]"
               @input="focusNext(index - 1)"
               placeholder="*"
@@ -90,7 +92,7 @@ const goToChangePassword = () => {
     </div>
 
     <!--  -->
-    <div class="w-[40%]">
+    <div class="w-1/2 md:block hidden">
       <div
         class="bg-[#FAFAFA] h-full justify-center mx-auto items-center relative"
       >
