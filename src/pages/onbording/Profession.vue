@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const totalSteps = 7;
 const currentStep = ref(1);
@@ -67,6 +67,26 @@ const newExperience = ref<Experience>({
 
   description: "",
 });
+
+const STORAGE_KEY = "user_experiences";
+
+onMounted(() => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+
+  if (saved) {
+    experiences.value = JSON.parse(saved);
+  }
+});
+
+watch(
+  experiences,
+
+  (val) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
+  },
+
+  { deep: true }
+);
 
 const openModal = () => {
   isModalOpen.value = true;
@@ -467,6 +487,7 @@ const resetNewExperience = (): void => {
         </div>
       </template>
 
+      <!--  -->
       <template v-else-if="currentStep === 3">
         <div class="flex justify-between w-full gap-6">
           <div class="w-[50%]">
@@ -508,9 +529,7 @@ const resetNewExperience = (): void => {
                         </h3>
 
                         <div class="flex space-x-3">
-                          <button
-                            class="cursor-pointer"
-                          >
+                          <button class="cursor-pointer">
                             <img
                               src="../../assets/svgs/edit.svg"
                               alt="file icon"
@@ -689,15 +708,97 @@ const resetNewExperience = (): void => {
           </div>
         </div>
       </template>
+
+      <!--  -->
       <template v-else-if="currentStep === 4">
-        <p>Step 4: Review and submit your application.</p>
+        <div class="bg-white w-full mx-auto flex gap-6">
+          <div class="w-[50%]">
+            <div
+              class="max-w-[470px]  flex justify-center flex-col mx-auto h-full space-y-3"
+            >
+              <h1 class="text-3xl font-normal">
+                Skills in relation to your profession
+              </h1>
+
+              <form @submit.prevent="" class="space-y-6 py-6">
+                <div class="flex flex-col text-sm space-y-2">
+                  <label for="">Skill</label>
+                  <input
+                    type="text"
+                    placeholder="Virtual Assistant, Receptionist skill"
+                    class="bg-[#FAFAFA] h-10 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
+                  />
+                </div>
+
+                <!--  links-->
+                <div class="text-xs">
+                  <h1 class="text-[#00000080]">
+                    Virtual Assistant, Receptionist skill, etc.
+                  </h1>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!--  -->
+          <div class="w-[50%]">
+            <!--  -->
+            <div class="relative">
+              <img
+                src="../../assets/images/skillsrelation2.jpg"
+                class="w-full h-[500px] object-cover"
+                alt=""
+              />
+
+              <div class="flex flex-col">
+                <div class="absolute top-30 left-20">
+                  <button
+                    class="text-xs border p-2 px-4 rounded-full bg-white hover:scale-105"
+                  >
+                    Project Management
+                  </button>
+                </div>
+
+                <div class="absolute top-44 right-20">
+                  <button
+                    class="text-xs border p-2 px-4 rounded-full bg-white hover:scale-105"
+                  >
+                    Good communicator
+                  </button>
+                </div>
+
+                <div class="absolute top-60 left-18">
+                  <button
+                    class="text-xs border p-2 px-4 rounded-full bg-white hover:scale-105"
+                  >
+                    Executive administrator
+                  </button>
+                </div>
+
+                <div class="absolute bottom-5 right-8">
+                  <button
+                    class="text-xs border p-2 px-4 rounded-full bg-white hover:scale-105"
+                  >
+                    Team Leadership
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </template>
+
+      <!--  -->
       <template v-else-if="currentStep === 5">
         <p>Step 4: Review and submit your application.</p>
       </template>
+
+      <!--  -->
       <template v-else-if="currentStep === 6">
         <p>Step 4: Review and submit your application.</p>
       </template>
+
+      <!--  -->
       <template v-else-if="currentStep === 7">
         <p>Step 4: Review and submit your application.</p>
       </template>
