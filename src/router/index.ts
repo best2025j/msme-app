@@ -7,7 +7,7 @@ import Login from "../pages/auth/Login.vue";
 import Signup from "../pages/auth/Signup.vue";
 import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import ResetPin from "../pages/auth/ResetPin.vue";
-import Completed from "../pages/auth/Completed.vue";
+import Completed from "../pages/onboarding/Completed.vue";
 import Onboarding from "../pages/auth/Onboarding.vue";
 import ChangePassword from "../pages/auth/ChangePassword.vue";
 import EmailVerification from "../pages/auth/EmailVerification.vue";
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/auth/signup", component: Signup },
   { path: "/auth/forgot-password", component: ForgotPassword },
   { path: "/auth/reset-pin", component: ResetPin },
-  { path: "/auth/completed", component: Completed },
+  { path: "/onboarding/completed", component: Completed },
   { path: "/auth/onboarding", component: Onboarding },
   { path: "/auth/change-password", component: ChangePassword },
   { path: "/auth/email-verification", component: EmailVerification },

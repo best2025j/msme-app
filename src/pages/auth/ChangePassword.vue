@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const goToUser = () => {
-  router.push("/onboarding/user");
+  router.push("/onboarding/completed");
 };
 </script>
 

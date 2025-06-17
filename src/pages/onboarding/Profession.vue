@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
 
 // --- Step Management ---
 const totalSteps = 7;
 const currentStep = ref(1);
 
-const nextStep = () => currentStep.value < totalSteps && currentStep.value++;
+const nextStep = () => {
+  if (currentStep.value < totalSteps) {
+    currentStep.value++;
+  } else {
+    router.push("/onboarding/completed");
+  }
+};
 const prevStep = () => currentStep.value > 1 && currentStep.value--;
 
 // --- Form Selections ---
@@ -1330,11 +1340,11 @@ const resetNewCertification = () => {
             <div
               class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
             >
-              <h1 class="text-3xl font-normal">Almost done! Give a summary about yourself</h1>
+              <h1 class="text-3xl font-normal">
+                Almost done! Give a summary about yourself
+              </h1>
 
-              <div class="py-6 space-y-4">
-              
-              </div>
+              <div class="py-6 space-y-4"></div>
             </div>
           </div>
 
@@ -1343,7 +1353,9 @@ const resetNewCertification = () => {
             <div
               class="bg-[#FAFAFA] py-4 flex flex-col justify-center items-center relative"
             >
-              <div class="bg-white w-[80%] p-6 border border-gray-500 rounded space-y-4">
+              <div
+                class="bg-white w-[80%] p-6 border border-gray-500 rounded space-y-4"
+              >
                 <h1 class="text-3xl font-medium text-black leading-[100%]">
                   Your bio
                 </h1>
@@ -1391,10 +1403,9 @@ const resetNewCertification = () => {
 
         <button
           @click="nextStep"
-          :disabled="currentStep === totalSteps"
-          class="w-[114px] py-2 bg-black text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-[114px] py-2 bg-black text-white rounded"
         >
-          Next
+          {{ currentStep === totalSteps ? "Finish" : "Next" }}
         </button>
       </div>
     </div>

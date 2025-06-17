@@ -1,54 +1,67 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const login = () => {
+  router.push("/auth/login");
+};
+
+const signup = () => {
+  router.push("/auth/signup");
+};
+</script>
 
 <template>
-  <div class="p-13 bg-white w-[80%] mx-auto h-[900px]">
-    <div
-      class="max-w-[584px] justify-center h-full flex mx-auto flex-col w-full"
-    >
-      <h1 class="text-3xl text-center font-normal">You are joining as a?</h1>
+  <div class="p-10 bg-white w-[80%] mx-auto h-[700px]">
+    <div class="max-w-[584px] h-full mx-auto items-center flex flex-col justify-center">
+      <h1 class="text-3xl text-center font-medium mb-10">
+        You are joining as a?
+      </h1>
 
-      <div class="flex gap-6 justify-between">
-        <router-link to="/" class="block">
-          <div class="py-4 cursor-pointer hover:scale-105 transition">
-            <div class="space-y-2">
-              <div class="border border-[#0000001A] w-full h-[120px] rounded">
-                <div
-                  class="h-full w-full justify-center items-center mx-auto flex"
-                >
-                  <img src="../assets/svgs/newoffice.svg" alt="" />
-                </div>
-              </div>
-              <div>
-                <h1 class="font-medium text-xl">Recruiter</h1>
-                <p class="text-xs text-[#000000B2]">
-                  Looking to find and manage job as a freelancer
-                </p>
+      <div class="flex gap-6 w-full">
+        <!-- Recruiter Card -->
+        <div
+          @click="signup"
+          class="py-4 cursor-pointer hover:scale-105 transition w-full"
+        >
+          <div class="space-y-2">
+            <div class="border border-gray-200 w-full h-[220px] rounded">
+              <div class="h-full w-full flex justify-center items-center">
+                <img src="../assets/svgs/newoffice.svg" alt="Recruiter" />
               </div>
             </div>
-          </div>
-        </router-link>
-
-        <router-link to="/onboarding/profession" class="block">
-          <div class="py-4 cursor-pointer hover:scale-105 transition">
-            <div class="space-y-2">
-              <div class="border border-[#0000001A] w-full h-[120px] rounded">
-                <div
-                  class="h-full w-full justify-center items-center mx-auto flex"
-                >
-                  <img src="../assets/svgs/userSearch.svg" alt="" />
-                </div>
-              </div>
-              <div>
-                <h1 class="font-medium text-xl">Talent</h1>
-                <p class="text-xs text-[#000000B2]">
-                  Looking to find and manage job as a freelancer
-                </p>
-              </div>
+            <div>
+              <h2 class="font-medium text-xl">Recruiter</h2>
+              <p class="text-xs text-gray-600">
+                Looking to hire and manage freelancers
+              </p>
             </div>
           </div>
-        </router-link>
+        </div>
+
+        <!-- Talent Card -->
+        <div
+          @click="login"
+          class="py-4 cursor-pointer hover:scale-105 transition w-full"
+        >
+          <div class="space-y-2">
+            <div class="border border-gray-200 w-full h-[220px] rounded">
+              <div class="h-full w-full flex justify-center items-center">
+                <img src="../assets/svgs/userSearch.svg" alt="Talent" />
+              </div>
+            </div>
+            <div>
+              <h2 class="font-medium text-xl">Talent</h2>
+              <p class="text-xs text-gray-600">
+                Looking to find and manage jobs as a freelancer
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
-<style scope></style>
+
+<style scoped></style>
