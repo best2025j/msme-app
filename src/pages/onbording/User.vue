@@ -5,7 +5,9 @@
     <div
       class="max-w-[584px] justify-center h-full flex mx-auto flex-col w-full"
     >
-      <h1 class="text-3xl text-center font-normal">How’d you like to start your career journey?</h1>
+      <h1 class="text-3xl text-center font-normal">
+        How’d you like to start your career journey?
+      </h1>
       <div class="flex gap-6 justify-between">
         <div class="py-4">
           <div class="space-y-2">
@@ -19,7 +21,8 @@
             <div>
               <h1 class="font-medium text-xl">Upload Resume</h1>
               <p class="text-xs text-[#000000B2]">
-                Have a resume? Upload and leave the rest to us              </p>
+                Have a resume? Upload and leave the rest to us
+              </p>
             </div>
           </div>
         </div>
