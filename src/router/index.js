@@ -8,6 +8,8 @@ import Onbording from "../pages/auth/Onbording.vue";
 import ChangePassword from "../pages/auth/ChangePassword.vue";
 import EmailVerification from "../pages/auth/EmailVerification.vue";
 import User from "../pages/onbording/User.vue";
+import UploadResume from "../pages/onbording/UploadResume.vue";
+import Profession from "../pages/onbording/Profession.vue";
 
 const routes = [
   { path: "/auth/login", component: Login },
@@ -19,6 +21,8 @@ const routes = [
   { path: "/auth/changepassword", component: ChangePassword },
   { path: "/auth/emailverification", component: EmailVerification },
   { path: "/onbording/user", component: User },
+  { path: "/onbording/uploadresume", component: UploadResume },
+  { path: "/onbording/profession", component: Profession },
 ];
 
 const router = createRouter({

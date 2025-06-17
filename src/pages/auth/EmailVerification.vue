@@ -17,7 +17,7 @@
             <input
               type="text"
               placeholder="Johndoe@doe.com@gmail.com"
-              class="bg-[#FAFAFA] h-10 rounded placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
+              class="bg-[#FAFAFA] h-10 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
             />
           </div>
 
