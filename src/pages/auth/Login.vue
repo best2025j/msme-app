@@ -45,7 +45,6 @@
                 <input
                   type="radio"
                   name="keepLoggedIn"
-                  id="keepLoggedIn"
                   class="mr-2"
                 />
                 <span>Keep me logged in</span>

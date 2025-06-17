@@ -1,36 +1,4 @@
-<script setup lang="ts">
-import { ref, onMounted } from "vue";
-
-// Define the type for the pin array
-const pin = ref<string[]>(["", "", "", ""]);
-const inputs = ref<(HTMLInputElement | null)[]>([]); // Type for the inputs array
-
-// Function to focus the next input
-const focusNext = (index: number): void => {
-  if (pin.value[index].length === 1 && index < 5) {
-    inputs.value[index + 1]?.focus(); // Use optional chaining to avoid errors
-  }
-};
-
-// Function to focus the previous input
-const focusPrev = (index: number): void => {
-  if (pin.value[index] === "" && index > 0) {
-    inputs.value[index - 1]?.focus(); // Use optional chaining to avoid errors
-  }
-};
-
-// Function to verify the PIN
-const verifyPin = (): void => {
-  const fullPin = pin.value.join("");
-  console.log("Verifying PIN:", fullPin);
-  // Add verification logic here
-};
-
-// Focus the first input on component mount
-onMounted(() => {
-  inputs.value[0]?.focus(); // Use optional chaining to avoid errors
-});
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="p-13 bg-white w-[80%] h-[900px] mx-auto flex gap-6">
@@ -43,19 +11,13 @@ onMounted(() => {
           Please enter the 4-digit code that was sent to Johndoe@doe.com
         </p>
 
-        <form @submit.prevent="verifyPin" class="space-y-6 py-6">
-          <!-- PIN Inputs -->
-          <div class="flex justify-center gap-3">
+        <form @submit.prevent="" class="space-y-6 py-6">
+          <div class="flex flex-col space-y-2">
+            <label for="">Email</label>
             <input
-              v-for=" index in pin.length"
-              :key="index"
               type="text"
-              maxlength="1"
-              class="w-10 h-12 text-center text-xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black/30"
-              v-model="pin[index-1]"
-              @input="focusNext(index-1)"
-              @keydown.backspace="focusPrev(index-1)"
-              ref="inputs"
+              placeholder="Johndoe@doe.com@gmail.com"
+              class="bg-[#FAFAFA] h-10 rounded placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
             />
           </div>
 
@@ -65,7 +27,7 @@ onMounted(() => {
               type="submit"
               class="bg-black text-white text-sm font-medium h-10 w-full rounded hover:bg-gray-900 transition"
             >
-              Verify Pin
+              Verify email
             </button>
           </div>
 

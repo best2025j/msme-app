@@ -5,6 +5,9 @@ import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import ResetPin from "../pages/auth/ResetPin.vue";
 import Completed from "../pages/auth/Completed.vue";
 import Onbording from "../pages/auth/Onbording.vue";
+import ChangePassword from "../pages/auth/ChangePassword.vue";
+import EmailVerification from "../pages/auth/EmailVerification.vue";
+import User from "../pages/onbording/User.vue";
 
 const routes = [
   { path: "/auth/login", component: Login },
@@ -13,6 +16,9 @@ const routes = [
   { path: "/auth/reset-pin", component: ResetPin },
   { path: "/auth/completed", component: Completed },
   { path: "/auth/onbording", component: Onbording },
+  { path: "/auth/changepassword", component: ChangePassword },
+  { path: "/auth/emailverification", component: EmailVerification },
+  { path: "/onbording/user", component: User },
 ];
 
 const router = createRouter({
