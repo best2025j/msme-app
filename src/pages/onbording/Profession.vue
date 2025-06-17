@@ -25,6 +25,7 @@ const prevStep = () => {
 const selectedProfession = ref("");
 const selectedExperience = ref("");
 const selectedLocation = ref("");
+
 const professions = [
   "Product designer",
   "Developer",
@@ -32,8 +33,80 @@ const professions = [
   "UI/UX Designer",
   "Project Manager",
 ];
+
 const locations = ["Lagos", "Abuja", "Jos", "Ilorin", "Ondo"]; // Renamed to 'locations'
-const experiences = ["Entry-level", "Mid-level", "Senior", "Lead"];
+const experiencesLevel = ["Entry-level", "Mid-level", "Senior", "Lead"];
+
+interface Experience {
+  role: string;
+
+  company: string;
+
+  location: string;
+
+  startDate: string;
+
+  endDate: string;
+
+  description: string;
+}
+
+const experiences = ref<Experience[]>([]);
+const isModalOpen = ref(false);
+
+const newExperience = ref<Experience>({
+  role: "",
+
+  company: "",
+
+  location: "",
+
+  startDate: "",
+
+  endDate: "",
+
+  description: "",
+});
+
+const openModal = () => {
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+
+  resetNewExperience();
+};
+
+const addExperience = (): void => {
+  if (newExperience.value.role && newExperience.value.company) {
+    experiences.value.push({ ...newExperience.value });
+
+    closeModal();
+  } else {
+    alert("Please fill in all required fields.");
+  }
+};
+
+const removeExperience = (index: number): void => {
+  experiences.value.splice(index, 1);
+};
+
+const resetNewExperience = (): void => {
+  newExperience.value = {
+    role: "",
+
+    company: "",
+
+    location: "",
+
+    startDate: "",
+
+    endDate: "",
+
+    description: "",
+  };
+};
 
 //links
 </script>
@@ -95,7 +168,7 @@ const experiences = ["Entry-level", "Mid-level", "Senior", "Lead"];
                     <option value="" disabled>Select</option>
 
                     <option
-                      v-for="prof in experiences"
+                      v-for="prof in experiencesLevel"
                       :key="prof"
                       :value="prof"
                     >
@@ -394,6 +467,7 @@ const experiences = ["Entry-level", "Mid-level", "Senior", "Lead"];
           </div>
         </div>
       </template>
+
       <template v-else-if="currentStep === 3">
         <div class="flex justify-between w-full gap-6">
           <div class="w-[50%]">
@@ -407,6 +481,7 @@ const experiences = ["Entry-level", "Mid-level", "Senior", "Lead"];
                   class="flex justify-between h-[247px] border p-2 border-dashed rounded items-center"
                 >
                   <div
+                    @click="openModal"
                     class="flex justify-center text-center items-center w-full flex-col gap-2 pt-2"
                   >
                     <div
@@ -415,9 +490,148 @@ const experiences = ["Entry-level", "Mid-level", "Senior", "Lead"];
                       <img src="../../assets/svgs/plus.svg" alt="file icon" />
                     </div>
 
-                    <p class="mb-4 text-black font-medium text-sm">
+                    <button class="mb-4 text-black font-medium text-sm">
                       Add experience
-                    </p>
+                    </button>
+                  </div>
+                </div>
+
+                <div v-if="experiencesLevel.length" class="space-y-4">
+                  <div
+                    v-for="(experiences, index) in experiences"
+                    :key="index"
+                    class="flex justify-between border p-2 rounded"
+                  >
+                    <div>
+                      <h3 class="font-medium text-base">{{ experiences.role }}</h3>
+
+                      <p>
+                        {{ experiences.company }} - {{ experiences.location }}
+                      </p>
+
+                      <p>
+                        {{ experiences.startDate }} to {{ experiences.endDate }}
+                      </p>
+
+                      <p>{{ experiences.description }}</p>
+                    </div>
+
+                    <button
+                      @click="removeExperience(index)"
+                      class="text-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
+                <!-- modal -->
+                <div
+                  v-if="isModalOpen"
+                  class="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
+                >
+                  <div
+                    class="bg-white p-6 rounded w-full max-w-md max-h-[90vh] overflow-auto"
+                  >
+                    <div class="flex justify-end">
+                      <button
+                        type="button"
+                        @click="closeModal"
+                        class="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+                      >
+                      <img src="../../assets/svgs/cancel.svg" class="" alt="file icon" />
+                      </button>
+                    </div>
+
+                    <h2 class="text-lg font-semibold mb-4">Add Experience</h2>
+
+                    <form @submit.prevent="addExperience" class="space-y-4">
+                      <div>
+                        <label class="block font-medium mb-1"
+                          >Your role at the company</label
+                        >
+
+                        <input
+                          v-model="newExperience.role"
+                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label class="block font-medium mb-1"
+                          >Company’s name</label
+                        >
+
+                        <input
+                          v-model="newExperience.company"
+                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <label class="block font-medium mb-1">Location</label>
+
+                        <input
+                          v-model="newExperience.location"
+                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+
+                      <div class="flex space-x-4">
+                        <div class="flex-1">
+                          <label class="block font-medium mb-1"
+                            >Start date</label
+                          >
+
+                          <input
+                            v-model="newExperience.startDate"
+                            type="month"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+
+                        <div class="flex-1">
+                          <label class="block font-medium mb-1">End date</label>
+
+                          <input
+                            v-model="newExperience.endDate"
+                            type="month"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label class="block font-medium mb-1"
+                          >Description</label
+                        >
+
+                        <textarea
+                          v-model="newExperience.description"
+                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          rows="4"
+                        ></textarea>
+                      </div>
+
+                      <div class="flex justify-between text-sm space-x-4">
+                        <button
+                          type="button"
+                          @click="closeModal"
+                          class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          type="submit"
+                          class="px-4 py-2 bg-black text-white rounded hover:bg-blue-700"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
