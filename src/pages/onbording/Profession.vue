@@ -20,6 +20,7 @@ const professions = [
   "UI/UX Designer",
   "Project Manager",
 ];
+
 const locations = ["Lagos", "Abuja", "Jos", "Ilorin", "Ondo"];
 const experiencesLevel = ["Entry-level", "Mid-level", "Senior", "Lead"];
 
@@ -42,9 +43,19 @@ interface Education {
   otherInfo: string;
 }
 
+interface Certification {
+  certification: string;
+  issuingOrganization: string;
+  credentialID: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
 // --- Reactive State ---
 const experiences = ref<Experience[]>([]);
 const educations = ref<Education[]>([]);
+const certifications = ref<Certification[]>([]);
 
 const newExperience = ref<Experience>({
   role: "",
@@ -64,25 +75,44 @@ const newEducation = ref<Education>({
   otherInfo: "",
 });
 
+const newCertification = ref<Certification>({
+  certification: "",
+  issuingOrganization: "",
+  credentialID: "",
+  startDate: "",
+  endDate: "",
+  description: "",
+});
+
 // --- Modal Control ---
 const isExperienceModalOpen = ref(false);
 const isEducationModalOpen = ref(false);
+const isCertificationModalOpen = ref(false);
 
+// experience
 const openExperienceModal = () => (isExperienceModalOpen.value = true);
 const closeExperienceModal = () => (isExperienceModalOpen.value = false);
+// education
 const openEducationModal = () => (isEducationModalOpen.value = true);
 const closeEducationModal = () => (isEducationModalOpen.value = false);
+// certifications
+const openCertificationModal = () => (isCertificationModalOpen.value = true);
+const closeCertificationModal = () => (isCertificationModalOpen.value = false);
 
 // --- LocalStorage Sync ---
 const EXPERIENCES_STORAGE_KEY = "user_experiences";
-const EDUCATION_STORAGE_KEY = "user_education";
+const EDUCATIONS_STORAGE_KEY = "user_educations";
+const CERTIFICATIONS_STORAGE_KEY = "user_certifications";
 
 onMounted(() => {
   const savedExp = localStorage.getItem(EXPERIENCES_STORAGE_KEY);
   if (savedExp) experiences.value = JSON.parse(savedExp);
 
-  const savedEdu = localStorage.getItem(EDUCATION_STORAGE_KEY);
+  const savedEdu = localStorage.getItem(EDUCATIONS_STORAGE_KEY);
   if (savedEdu) educations.value = JSON.parse(savedEdu);
+
+  const savedCer = localStorage.getItem(CERTIFICATIONS_STORAGE_KEY);
+  if (savedCer) certifications.value = JSON.parse(savedCer);
 });
 
 watch(
@@ -96,7 +126,15 @@ watch(
 watch(
   educations,
   (val) => {
-    localStorage.setItem(EDUCATION_STORAGE_KEY, JSON.stringify(val));
+    localStorage.setItem(EDUCATIONS_STORAGE_KEY, JSON.stringify(val));
+  },
+  { deep: true }
+);
+
+watch(
+  certifications,
+  (val) => {
+    localStorage.setItem(CERTIFICATIONS_STORAGE_KEY, JSON.stringify(val));
   },
   { deep: true }
 );
@@ -122,9 +160,24 @@ const addEducation = () => {
   }
 };
 
+const addCertification = () => {
+  if (
+    newCertification.value.certification &&
+    newCertification.value.issuingOrganization
+  ) {
+    certifications.value.push({ ...newCertification.value });
+    resetNewCertification();
+    closeCertificationModal();
+  } else {
+    alert("Please fill in all required fields.");
+  }
+};
+
 // --- Remove Handlers ---
 const removeExperience = (index: number) => experiences.value.splice(index, 1);
 const removeEducation = (index: number) => educations.value.splice(index, 1);
+const removCertification = (index: number) =>
+  certifications.value.splice(index, 1);
 
 // --- Reset Handlers ---
 const resetNewExperience = () => {
@@ -146,6 +199,17 @@ const resetNewEducation = () => {
     startDate: "",
     endDate: "",
     otherInfo: "",
+  };
+};
+
+const resetNewCertification = () => {
+  newCertification.value = {
+    certification: "",
+    issuingOrganization: "",
+    credentialID: "",
+    startDate: "",
+    endDate: "",
+    description: "",
   };
 };
 </script>
@@ -1032,7 +1096,228 @@ const resetNewEducation = () => {
 
       <!--  -->
       <template v-else-if="currentStep === 6">
-        <p>Step 4: Review and submit your application.</p>
+        <div class="flex justify-between w-full gap-6">
+          <div class="w-[50%]">
+            <div
+              class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
+            >
+              <h1 class="text-3xl font-normal">Certifications</h1>
+
+              <div class="py-6 space-y-4">
+                <div
+                  class="flex justify-between h-[247px] border p-2 border-dashed rounded items-center"
+                >
+                  <div
+                    @click="openCertificationModal"
+                    class="flex justify-center text-center items-center w-full flex-col gap-2 pt-2"
+                  >
+                    <div
+                      class="border border-gray-400 w-10 h-10 rounded-full flex items-center justify-center"
+                    >
+                      <img src="../../assets/svgs/plus.svg" alt="file icon" />
+                    </div>
+
+                    <button class="mb-4 text-black font-medium text-sm">
+                      Add Certifications
+                    </button>
+                  </div>
+                </div>
+
+                <div v-if="certifications.length" class="space-y-4">
+                  <div
+                    v-for="(certification, index) in certifications"
+                    :key="index"
+                    class="flex justify-between border p-4 rounded"
+                  >
+                    <div class="w-full space-y-1">
+                      <div class="flex justify-between">
+                        <h3 class="font-semibold text-base">
+                          {{ certification.certification }}
+                        </h3>
+
+                        <div class="flex space-x-3">
+                          <button class="cursor-pointer">
+                            <img
+                              src="../../assets/svgs/edit.svg"
+                              alt="file icon"
+                            />
+                          </button>
+                          <button
+                            @click="removCertification(index)"
+                            class="cursor-pointer"
+                          >
+                            <img
+                              src="../../assets/svgs/delete.svg"
+                              alt="file icon"
+                            />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="flex justify-between w-full space-y-4">
+                        <p class="text-sm">
+                          {{ certification.issuingOrganization }} -
+                          {{ certification.credentialID }}
+                        </p>
+
+                        <p class="text-sm">
+                          {{ certification.startDate }} -
+                          {{ certification.endDate }}
+                        </p>
+                      </div>
+                      <textarea rows="8" class="w-full">{{
+                        certification.description
+                      }}</textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- modal -->
+                <div
+                  v-if="isCertificationModalOpen"
+                  class="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
+                >
+                  <div
+                    class="bg-white p-6 rounded-xl w-full max-w-xl max-h-[90vh] overflow-auto"
+                  >
+                    <div
+                      class="w-[80%] mx-auto justify-center items-start flex flex-col"
+                    >
+                      <div class="flex justify-end w-full">
+                        <button
+                          type="button"
+                          @click="closeCertificationModal"
+                          class="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+                        >
+                          <img
+                            src="../../assets/svgs/cancel.svg"
+                            class="w-6 h-6"
+                            alt="file icon"
+                          />
+                        </button>
+                      </div>
+
+                      <h2 class="text-lg font-semibold mb-4">Add Certifications</h2>
+
+                      <form
+                        @submit.prevent="addCertification"
+                        class="space-y-4"
+                      >
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Certification / license name</label
+                          >
+
+                          <input
+                            v-model="newCertification.certification"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            placeholder="******************"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Issuing organization</label
+                          >
+
+                          <input
+                            v-model="newCertification.issuingOrganization"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            placeholder=" Apple"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Credential ID</label
+                          >
+
+                          <input
+                            v-model="newCertification.credentialID"
+                            placeholder="udemy"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+
+                        <div class="flex space-x-4">
+                          <div class="flex-1">
+                            <label class="block font-medium mb-1 text-sm"
+                              >Start date</label
+                            >
+
+                            <input
+                              v-model="newCertification.startDate"
+                              type="month"
+                              placeholder="MM-YYYY"
+                              class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+
+                          <div class="flex-1">
+                            <label class="block font-medium mb-1 text-sm"
+                              >End date</label
+                            >
+
+                            <input
+                              v-model="newCertification.endDate"
+                              type="month"
+                              placeholder="MM-YYYY"
+                              class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Other information (Optional)</label
+                          >
+
+                          <textarea placeholder="write here ...."
+                            v-model="newCertification.description"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            rows="4"
+                          ></textarea>
+                        </div>
+
+                        <div class="flex justify-between text-sm space-x-4">
+                          <button
+                            type="button"
+                            @click="closeCertificationModal"
+                            class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
+                          >
+                            Cancel
+                          </button>
+
+                          <button
+                            type="submit"
+                            class="px-4 py-2 bg-black text-white rounded hover:bg-blue-700"
+                          >
+                            Add
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--  -->
+          <div class="w-[50%]">
+            <div
+              class="mx-auto w-full h-full py-4 flex flex-col justify-center items-center relative"
+            >
+              <img
+                src="../../assets/images/awardpix.png"
+                class="w-full h-full object-cover rounded-md"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
       </template>
 
       <!--  -->
