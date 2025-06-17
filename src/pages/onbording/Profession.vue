@@ -1,27 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 
+// --- Step Management ---
 const totalSteps = 7;
 const currentStep = ref(1);
 
-// const goToStep = (step: number) => {
-//   if (step >= 1 && step <= totalSteps) {
-//     currentStep.value = step;
-//   }
-// };
+const nextStep = () => currentStep.value < totalSteps && currentStep.value++;
+const prevStep = () => currentStep.value > 1 && currentStep.value--;
 
-const nextStep = () => {
-  if (currentStep.value < totalSteps) {
-    currentStep.value++;
-  }
-};
-
-const prevStep = () => {
-  if (currentStep.value > 1) {
-    currentStep.value--;
-  }
-};
-
+// --- Form Selections ---
 const selectedProfession = ref("");
 const selectedExperience = ref("");
 const selectedLocation = ref("");
@@ -33,90 +20,114 @@ const professions = [
   "UI/UX Designer",
   "Project Manager",
 ];
-
-const locations = ["Lagos", "Abuja", "Jos", "Ilorin", "Ondo"]; // Renamed to 'locations'
+const locations = ["Lagos", "Abuja", "Jos", "Ilorin", "Ondo"];
 const experiencesLevel = ["Entry-level", "Mid-level", "Senior", "Lead"];
 
+// --- Interfaces ---
 interface Experience {
   role: string;
-
   company: string;
-
   location: string;
-
   startDate: string;
-
   endDate: string;
-
   description: string;
 }
 
+interface Education {
+  degree: string;
+  field: string;
+  school: string;
+  startDate: string;
+  endDate: string;
+  otherInfo: string;
+}
+
+// --- Reactive State ---
 const experiences = ref<Experience[]>([]);
-const isModalOpen = ref(false);
+const educations = ref<Education[]>([]);
 
 const newExperience = ref<Experience>({
   role: "",
-
   company: "",
-
   location: "",
-
   startDate: "",
-
   endDate: "",
-
   description: "",
 });
 
-const STORAGE_KEY = "user_experiences";
+const newEducation = ref<Education>({
+  degree: "",
+  field: "",
+  school: "",
+  startDate: "",
+  endDate: "",
+  otherInfo: "",
+});
+
+// --- Modal Control ---
+const isExperienceModalOpen = ref(false);
+const isEducationModalOpen = ref(false);
+
+const openExperienceModal = () => (isExperienceModalOpen.value = true);
+const closeExperienceModal = () => (isExperienceModalOpen.value = false);
+const openEducationModal = () => (isEducationModalOpen.value = true);
+const closeEducationModal = () => (isEducationModalOpen.value = false);
+
+// --- LocalStorage Sync ---
+const EXPERIENCES_STORAGE_KEY = "user_experiences";
+const EDUCATION_STORAGE_KEY = "user_education";
 
 onMounted(() => {
-  const saved = localStorage.getItem(STORAGE_KEY);
+  const savedExp = localStorage.getItem(EXPERIENCES_STORAGE_KEY);
+  if (savedExp) experiences.value = JSON.parse(savedExp);
 
-  if (saved) {
-    experiences.value = JSON.parse(saved);
-  }
+  const savedEdu = localStorage.getItem(EDUCATION_STORAGE_KEY);
+  if (savedEdu) educations.value = JSON.parse(savedEdu);
 });
 
 watch(
   experiences,
-
   (val) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
+    localStorage.setItem(EXPERIENCES_STORAGE_KEY, JSON.stringify(val));
   },
-
   { deep: true }
 );
 
-const openModal = () => {
-  isModalOpen.value = true;
-};
+watch(
+  educations,
+  (val) => {
+    localStorage.setItem(EDUCATION_STORAGE_KEY, JSON.stringify(val));
+  },
+  { deep: true }
+);
 
-const closeModal = () => {
-  isModalOpen.value = false;
-
-  resetNewExperience();
-};
-
-const addExperience = (): void => {
+// --- Add Handlers ---
+const addExperience = () => {
   if (newExperience.value.role && newExperience.value.company) {
     experiences.value.push({ ...newExperience.value });
-
-    closeModal();
+    resetNewExperience();
+    closeExperienceModal();
   } else {
     alert("Please fill in all required fields.");
   }
 };
 
-// const editExperience  = (index: number): void => {
-//   experiences.value.splice(index, 1);
-// };
-
-const removeExperience = (index: number): void => {
-  experiences.value.splice(index, 1);
+const addEducation = () => {
+  if (newEducation.value.degree && newEducation.value.school) {
+    educations.value.push({ ...newEducation.value });
+    resetNewEducation();
+    closeEducationModal();
+  } else {
+    alert("Please fill in all required fields.");
+  }
 };
 
-const resetNewExperience = (): void => {
+// --- Remove Handlers ---
+const removeExperience = (index: number) => experiences.value.splice(index, 1);
+const removeEducation = (index: number) => educations.value.splice(index, 1);
+
+// --- Reset Handlers ---
+const resetNewExperience = () => {
   newExperience.value = {
     role: "",
     company: "",
@@ -127,7 +138,16 @@ const resetNewExperience = (): void => {
   };
 };
 
-//links
+const resetNewEducation = () => {
+  newEducation.value = {
+    degree: "",
+    field: "",
+    school: "",
+    startDate: "",
+    endDate: "",
+    otherInfo: "",
+  };
+};
 </script>
 
 <template>
@@ -501,7 +521,7 @@ const resetNewExperience = (): void => {
                   class="flex justify-between h-[247px] border p-2 border-dashed rounded items-center"
                 >
                   <div
-                    @click="openModal"
+                    @click="openExperienceModal"
                     class="flex justify-center text-center items-center w-full flex-col gap-2 pt-2"
                   >
                     <div
@@ -516,16 +536,16 @@ const resetNewExperience = (): void => {
                   </div>
                 </div>
 
-                <div v-if="experiencesLevel.length" class="space-y-4">
+                <div v-if="experiences.length" class="space-y-4">
                   <div
-                    v-for="(experiences, index) in experiences"
+                    v-for="(experience, index) in experiences"
                     :key="index"
                     class="flex justify-between border p-4 rounded"
                   >
                     <div class="w-full space-y-1">
                       <div class="flex justify-between">
                         <h3 class="font-semibold text-base">
-                          {{ experiences.role }}
+                          {{ experience.role }}
                         </h3>
 
                         <div class="flex space-x-3">
@@ -549,16 +569,16 @@ const resetNewExperience = (): void => {
 
                       <div class="flex justify-between w-full space-y-4">
                         <p class="text-sm">
-                          {{ experiences.company }} - {{ experiences.location }}
+                          {{ experience.company }} - {{ experience.location }}
                         </p>
 
                         <p class="text-sm">
-                          {{ experiences.startDate }} -
-                          {{ experiences.endDate }}
+                          {{ experience.startDate }} -
+                          {{ experience.endDate }}
                         </p>
                       </div>
                       <textarea rows="8" class="w-full">{{
-                        experiences.description
+                        experience.description
                       }}</textarea>
                     </div>
                   </div>
@@ -566,7 +586,7 @@ const resetNewExperience = (): void => {
 
                 <!-- modal -->
                 <div
-                  v-if="isModalOpen"
+                  v-if="isExperienceModalOpen"
                   class="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
                 >
                   <div
@@ -578,7 +598,7 @@ const resetNewExperience = (): void => {
                       <div class="flex justify-end w-full">
                         <button
                           type="button"
-                          @click="closeModal"
+                          @click="closeExperienceModal"
                           class="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
                         >
                           <img
@@ -673,7 +693,7 @@ const resetNewExperience = (): void => {
                         <div class="flex justify-between text-sm space-x-4">
                           <button
                             type="button"
-                            @click="closeModal"
+                            @click="closeExperienceModal"
                             class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
                           >
                             Cancel
@@ -714,7 +734,7 @@ const resetNewExperience = (): void => {
         <div class="bg-white w-full mx-auto flex gap-6">
           <div class="w-[50%]">
             <div
-              class="max-w-[470px]  flex justify-center flex-col mx-auto h-full space-y-3"
+              class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
             >
               <h1 class="text-3xl font-normal">
                 Skills in relation to your profession
@@ -790,7 +810,224 @@ const resetNewExperience = (): void => {
 
       <!--  -->
       <template v-else-if="currentStep === 5">
-        <p>Step 4: Review and submit your application.</p>
+        <div class="flex justify-between w-full gap-6">
+          <div class="w-[50%]">
+            <div
+              class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
+            >
+              <h1 class="text-3xl font-normal">Education</h1>
+
+              <div class="py-6 space-y-4">
+                <div
+                  class="flex justify-between h-[247px] border p-2 border-dashed rounded items-center"
+                >
+                  <div
+                    @click="openEducationModal"
+                    class="flex justify-center text-center items-center w-full flex-col gap-2 pt-2"
+                  >
+                    <div
+                      class="border border-gray-400 w-10 h-10 rounded-full flex items-center justify-center"
+                    >
+                      <img src="../../assets/svgs/plus.svg" alt="file icon" />
+                    </div>
+
+                    <button class="mb-4 text-black font-medium text-sm">
+                      Add education
+                    </button>
+                  </div>
+                </div>
+
+                <div v-if="educations.length" class="space-y-4">
+                  <div
+                    v-for="(education, index) in educations"
+                    :key="index"
+                    class="flex justify-between border p-4 rounded"
+                  >
+                    <div class="w-full space-y-1">
+                      <div class="flex justify-between">
+                        <h3 class="font-semibold text-base">
+                          {{ education.degree }}
+                        </h3>
+
+                        <div class="flex space-x-3">
+                          <button class="cursor-pointer">
+                            <img
+                              src="../../assets/svgs/edit.svg"
+                              alt="file icon"
+                            />
+                          </button>
+                          <button
+                            @click="removeEducation(index)"
+                            class="cursor-pointer"
+                          >
+                            <img
+                              src="../../assets/svgs/delete.svg"
+                              alt="file icon"
+                            />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="flex justify-between w-full space-y-4">
+                        <p class="text-sm">
+                          {{ education.field }} - {{ education.school }}
+                        </p>
+
+                        <p class="text-sm">
+                          {{ education.startDate }} -
+                          {{ education.endDate }}
+                        </p>
+                      </div>
+                      <textarea rows="8" class="w-full">{{
+                        education.otherInfo
+                      }}</textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- modal -->
+                <div
+                  v-if="isEducationModalOpen"
+                  class="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
+                >
+                  <div
+                    class="bg-white p-6 rounded-xl w-full max-w-xl max-h-[90vh] overflow-auto"
+                  >
+                    <div
+                      class="w-[80%] mx-auto justify-center items-start flex flex-col"
+                    >
+                      <div class="flex justify-end w-full">
+                        <button
+                          type="button"
+                          @click="closeEducationModal"
+                          class="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
+                        >
+                          <img
+                            src="../../assets/svgs/cancel.svg"
+                            class="w-6 h-6"
+                            alt="file icon"
+                          />
+                        </button>
+                      </div>
+
+                      <h2 class="text-lg font-semibold mb-4">Add education</h2>
+
+                      <form @submit.prevent="addEducation" class="space-y-4">
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Degree</label
+                          >
+
+                          <input
+                            v-model="newEducation.degree"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            placeholder="Bachelor of Science"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Field</label
+                          >
+
+                          <input
+                            v-model="newEducation.field"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            placeholder=" Biology"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >School</label
+                          >
+
+                          <input
+                            v-model="newEducation.school"
+                            placeholder="leadcity"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+
+                        <div class="flex space-x-4">
+                          <div class="flex-1">
+                            <label class="block font-medium mb-1 text-sm"
+                              >Start date</label
+                            >
+
+                            <input
+                              v-model="newEducation.startDate"
+                              type="month"
+                              placeholder="MM-YYYY"
+                              class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+
+                          <div class="flex-1">
+                            <label class="block font-medium mb-1 text-sm"
+                              >End date</label
+                            >
+
+                            <input
+                              v-model="newEducation.endDate"
+                              type="month"
+                              placeholder="MM-YYYY"
+                              class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Other information (Optional)</label
+                          >
+
+                          <textarea
+                            v-model="newEducation.otherInfo"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            rows="4"
+                          ></textarea>
+                        </div>
+
+                        <div class="flex justify-between text-sm space-x-4">
+                          <button
+                            type="button"
+                            @click="closeEducationModal"
+                            class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
+                          >
+                            Cancel
+                          </button>
+
+                          <button
+                            type="submit"
+                            class="px-4 py-2 bg-black text-white rounded hover:bg-blue-700"
+                          >
+                            Add
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--  -->
+          <div class="w-[50%]">
+            <div
+              class="mx-auto w-full h-full py-4 flex flex-col justify-center items-center relative"
+            >
+              <img
+                src="../../assets/images/education.png"
+                class="w-full h-full object-cover"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
       </template>
 
       <!--  -->
