@@ -1,4 +1,43 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+// Define the type for the pin array
+const pin = ref<string[]>(["", "", "", ""]);
+const inputs = ref<(HTMLInputElement | null)[]>([]); // Type for the inputs array
+
+// Function to focus the next input
+const focusNext = (index: number): void => {
+  if (pin.value[index].length === 1 && index < 5) {
+    inputs.value[index + 1]?.focus(); // Use optional chaining to avoid errors
+  }
+};
+
+// Function to focus the previous input
+const focusPrev = (index: number): void => {
+  if (pin.value[index] === "" && index > 0) {
+    inputs.value[index - 1]?.focus(); // Use optional chaining to avoid errors
+  }
+};
+
+// Function to verify the PIN
+const verifyPin = (): void => {
+  const fullPin = pin.value.join("");
+  console.log("Verifying PIN:", fullPin);
+  // Add verification logic here
+};
+
+// Focus the first input on component mount
+onMounted(() => {
+  inputs.value[0]?.focus(); // Use optional chaining to avoid errors
+});
+
+//
+const goToChangePassword = () => {
+  router.push("/auth/change-password");
+};
+</script>
 
 <template>
   <div class="p-13 bg-white w-[80%] h-[900px] mx-auto flex gap-6">
@@ -11,23 +50,31 @@
           Please enter the 4-digit code that was sent to Johndoe@doe.com
         </p>
 
-        <form @submit.prevent="" class="space-y-6 py-6">
-          <div class="flex flex-col space-y-2">
-            <label for="">Email</label>
+        <form @submit.prevent="verifyPin" class="space-y-6 py-6 w-full">
+          <!-- PIN Inputs -->
+          <div class="flex justify-between gap-3">
             <input
+              v-for="index in pin.length"
+              :key="index"
               type="text"
-              placeholder="Johndoe@doe.com@gmail.com"
-              class="bg-[#FAFAFA] h-10 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
+              maxlength="1"
+              class="w-20 h-14 text-center text-xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              v-model="pin[index - 1]"
+              @input="focusNext(index - 1)"
+              placeholder="*"
+              @keydown.backspace="focusPrev(index - 1)"
+              ref="inputs"
             />
           </div>
 
           <!-- Submit Button -->
-          <div>
+          <div class="w-full flex">
             <button
               type="submit"
+              @click="goToChangePassword"
               class="bg-black text-white text-sm font-medium h-10 w-full rounded hover:bg-gray-900 transition"
             >
-              Verify email
+              Verify Pin
             </button>
           </div>
 

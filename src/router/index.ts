@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
+import Home from "../pages/Home.vue";
 import Login from "../pages/auth/Login.vue";
 import Signup from "../pages/auth/Signup.vue";
 import ForgotPassword from "../pages/auth/ForgotPassword.vue";
@@ -17,14 +18,15 @@ import Summary from "../pages/onboarding/Summary.vue";
 
 // 👇 Add RouteRecordRaw type here
 const routes: RouteRecordRaw[] = [
+  { path: "/", component: Home },
   { path: "/auth/login", component: Login },
   { path: "/auth/signup", component: Signup },
   { path: "/auth/forgot-password", component: ForgotPassword },
   { path: "/auth/reset-pin", component: ResetPin },
   { path: "/auth/completed", component: Completed },
   { path: "/auth/onboarding", component: Onboarding },
-  { path: "/auth/changepassword", component: ChangePassword },
-  { path: "/auth/emailverification", component: EmailVerification },
+  { path: "/auth/change-password", component: ChangePassword },
+  { path: "/auth/email-verification", component: EmailVerification },
   { path: "/onboarding/user", component: User },
   { path: "/onboarding/uploadresume", component: UploadResume },
   { path: "/onboarding/profession", component: Profession },

@@ -1,8 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const goToResetPin = () => {
+  router.push("/auth/reset-pin");
+};
+</script>
 
 <template>
-  <div class="p-13 bg-white w-[80%] h-[900px] mx-auto flex gap-6">
-    <div class="w-[60%]">
+  <div class="p-13 bg-white w-[80%] h-[700px] mx-auto flex gap-6">
+    <div class="w-[50%]">
       <div
         class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
       >
@@ -24,6 +31,7 @@
             <div class="py-4">
               <button
                 type="submit"
+                @click="goToResetPin"
                 class="bg-[#000000] text-sm cursor-pointer font-medium text-white rounded h-10 w-full"
               >
                 Reset password
@@ -35,7 +43,7 @@
     </div>
 
     <!--  -->
-    <div class="w-[40%]">
+    <div class="w-[50%]">
       <div class="bg-[#FAFAFA] h-full relative">
         <div class="transform translate-x-6 py-14">
           <h1 class="text-3xl font-normal w-[242px] leading-[100%]">
@@ -63,7 +71,7 @@
 
           <!--  -->
           <div
-            class="flex space-x-4 trasform bottom-38 absolute translate-18 hover:scale-105 cursor-pointer  z-20 rotate-[30deg] bg-white w-[212px] h-[72px] items-center shadow p-4 rounded"
+            class="flex space-x-4 trasform bottom-38 absolute translate-18 hover:scale-105 cursor-pointer z-20 rotate-[30deg] bg-white w-[212px] h-[72px] items-center shadow p-4 rounded"
           >
             <span
               class="bg-[#FAFAFA] w-10 h-10 rounded-full flex items-center justify-center"
@@ -79,7 +87,7 @@
 
           <!--  -->
           <div
-            class="flex space-x-4 z-10 bg-white h-[72px] items-center hover:scale-105 cursor-pointer  shadow p-4 rounded"
+            class="flex space-x-4 z-10 bg-white h-[72px] items-center hover:scale-105 cursor-pointer shadow p-4 rounded"
           >
             <span
               class="bg-[#FAFAFA] w-10 h-10 rounded-full flex items-center justify-center"

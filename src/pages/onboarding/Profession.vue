@@ -1197,7 +1197,9 @@ const resetNewCertification = () => {
                         </button>
                       </div>
 
-                      <h2 class="text-lg font-semibold mb-4">Add Certifications</h2>
+                      <h2 class="text-lg font-semibold mb-4">
+                        Add Certifications
+                      </h2>
 
                       <form
                         @submit.prevent="addCertification"
@@ -1274,7 +1276,8 @@ const resetNewCertification = () => {
                             >Other information (Optional)</label
                           >
 
-                          <textarea placeholder="write here ...."
+                          <textarea
+                            placeholder="write here ...."
                             v-model="newCertification.description"
                             class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             rows="4"
@@ -1322,7 +1325,55 @@ const resetNewCertification = () => {
 
       <!--  -->
       <template v-else-if="currentStep === 7">
-        <p>Step 4: Review and submit your application.</p>
+        <div class="flex justify-between w-full gap-6">
+          <div class="w-[50%]">
+            <div
+              class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
+            >
+              <h1 class="text-3xl font-normal">Almost done! Give a summary about yourself</h1>
+
+              <div class="py-6 space-y-4">
+              
+              </div>
+            </div>
+          </div>
+
+          <!--  -->
+          <div class="w-[50%]">
+            <div
+              class="bg-[#FAFAFA] py-4 flex flex-col justify-center items-center relative"
+            >
+              <div class="bg-white w-[80%] p-6 border border-gray-500 rounded space-y-4">
+                <h1 class="text-3xl font-medium text-black leading-[100%]">
+                  Your bio
+                </h1>
+
+                <div class="gap-1 flex flex-col">
+                  <div class="bg-[#0000001A] w-full h-2 rounded" />
+                  <div class="bg-[#0000001A] w-full h-2 rounded" />
+                  <div class="bg-[#0000001A] w-full h-2 rounded" />
+                  <div class="bg-[#0000001A] w-[50%] h-2 rounded" />
+                </div>
+
+                <!--  -->
+                <div class="gap-1 flex flex-col">
+                  <div class="bg-[#0000001A] w-full h-2 rounded" />
+                  <div class="bg-[#0000001A] w-full h-2 rounded" />
+                  <div class="bg-[#0000001A] w-full h-2 rounded" />
+                  <div class="bg-[#0000001A] w-[50%] h-2 rounded" />
+                </div>
+              </div>
+
+              <div class="justify-end w-full -mt-14 pr-6 flex">
+                <img
+                  src="../../assets/images/rose.png"
+                  class="w-[200px] h-[150px] object-cover"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </template>
 
       <!-- buttons for steps -->

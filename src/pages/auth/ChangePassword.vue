@@ -1,8 +1,16 @@
-<script setup lang="ts" ></script>
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const goToUser = () => {
+  router.push("/onboarding/user");
+};
+</script>
 
 <template>
   <div class="p-13 bg-white w-[80%] h-[900px] mx-auto flex gap-6">
-    <div class="w-[60%]">
+    <div class="w-[50%]">
       <div
         class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
       >
@@ -32,6 +40,7 @@
             <div class="py-4">
               <button
                 type="submit"
+                @click="goToUser"
                 class="bg-[#000000] text-sm cursor-pointer font-medium text-white rounded h-10 w-full"
               >
                 Reset password
@@ -43,7 +52,7 @@
     </div>
 
     <!--  -->
-    <div class="w-[40%]">
+    <div class="w-[50%]">
       <div class="bg-[#FAFAFA] h-full relative">
         <div class="transform translate-x-6 py-14">
           <h1 class="text-3xl font-normal w-[242px] leading-[100%]">
