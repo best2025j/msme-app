@@ -1,4 +1,4 @@
-<script setup lang=""></script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="p-13 bg-white w-[80%] mx-auto h-[900px]">
