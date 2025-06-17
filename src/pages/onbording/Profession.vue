@@ -88,6 +88,10 @@ const addExperience = (): void => {
   }
 };
 
+// const editExperience  = (index: number): void => {
+//   experiences.value.splice(index, 1);
+// };
+
 const removeExperience = (index: number): void => {
   experiences.value.splice(index, 1);
 };
@@ -95,15 +99,10 @@ const removeExperience = (index: number): void => {
 const resetNewExperience = (): void => {
   newExperience.value = {
     role: "",
-
     company: "",
-
     location: "",
-
     startDate: "",
-
     endDate: "",
-
     description: "",
   };
 };
@@ -485,7 +484,7 @@ const resetNewExperience = (): void => {
                     class="flex justify-center text-center items-center w-full flex-col gap-2 pt-2"
                   >
                     <div
-                      class="border border-[#FAFAFA] w-10 h-10 rounded-full flex items-center justify-center"
+                      class="border border-gray-400 w-10 h-10 rounded-full flex items-center justify-center"
                     >
                       <img src="../../assets/svgs/plus.svg" alt="file icon" />
                     </div>
@@ -500,28 +499,49 @@ const resetNewExperience = (): void => {
                   <div
                     v-for="(experiences, index) in experiences"
                     :key="index"
-                    class="flex justify-between border p-2 rounded"
+                    class="flex justify-between border p-4 rounded"
                   >
-                    <div>
-                      <h3 class="font-medium text-base">{{ experiences.role }}</h3>
+                    <div class="w-full space-y-1">
+                      <div class="flex justify-between">
+                        <h3 class="font-semibold text-base">
+                          {{ experiences.role }}
+                        </h3>
 
-                      <p>
-                        {{ experiences.company }} - {{ experiences.location }}
-                      </p>
+                        <div class="flex space-x-3">
+                          <button
+                            class="cursor-pointer"
+                          >
+                            <img
+                              src="../../assets/svgs/edit.svg"
+                              alt="file icon"
+                            />
+                          </button>
+                          <button
+                            @click="removeExperience(index)"
+                            class="cursor-pointer"
+                          >
+                            <img
+                              src="../../assets/svgs/delete.svg"
+                              alt="file icon"
+                            />
+                          </button>
+                        </div>
+                      </div>
 
-                      <p>
-                        {{ experiences.startDate }} to {{ experiences.endDate }}
-                      </p>
+                      <div class="flex justify-between w-full space-y-4">
+                        <p class="text-sm">
+                          {{ experiences.company }} - {{ experiences.location }}
+                        </p>
 
-                      <p>{{ experiences.description }}</p>
+                        <p class="text-sm">
+                          {{ experiences.startDate }} -
+                          {{ experiences.endDate }}
+                        </p>
+                      </div>
+                      <textarea rows="8" class="w-full">{{
+                        experiences.description
+                      }}</textarea>
                     </div>
-
-                    <button
-                      @click="removeExperience(index)"
-                      class="text-red-600"
-                    >
-                      Delete
-                    </button>
                   </div>
                 </div>
 
@@ -531,107 +551,124 @@ const resetNewExperience = (): void => {
                   class="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50"
                 >
                   <div
-                    class="bg-white p-6 rounded w-full max-w-md max-h-[90vh] overflow-auto"
+                    class="bg-white p-6 rounded-xl w-full max-w-xl max-h-[90vh] overflow-auto"
                   >
-                    <div class="flex justify-end">
-                      <button
-                        type="button"
-                        @click="closeModal"
-                        class="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
-                      >
-                      <img src="../../assets/svgs/cancel.svg" class="" alt="file icon" />
-                      </button>
-                    </div>
-
-                    <h2 class="text-lg font-semibold mb-4">Add Experience</h2>
-
-                    <form @submit.prevent="addExperience" class="space-y-4">
-                      <div>
-                        <label class="block font-medium mb-1"
-                          >Your role at the company</label
-                        >
-
-                        <input
-                          v-model="newExperience.role"
-                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label class="block font-medium mb-1"
-                          >Company’s name</label
-                        >
-
-                        <input
-                          v-model="newExperience.company"
-                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label class="block font-medium mb-1">Location</label>
-
-                        <input
-                          v-model="newExperience.location"
-                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-
-                      <div class="flex space-x-4">
-                        <div class="flex-1">
-                          <label class="block font-medium mb-1"
-                            >Start date</label
-                          >
-
-                          <input
-                            v-model="newExperience.startDate"
-                            type="month"
-                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          />
-                        </div>
-
-                        <div class="flex-1">
-                          <label class="block font-medium mb-1">End date</label>
-
-                          <input
-                            v-model="newExperience.endDate"
-                            type="month"
-                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label class="block font-medium mb-1"
-                          >Description</label
-                        >
-
-                        <textarea
-                          v-model="newExperience.description"
-                          class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          rows="4"
-                        ></textarea>
-                      </div>
-
-                      <div class="flex justify-between text-sm space-x-4">
+                    <div
+                      class="w-[80%] mx-auto justify-center items-start flex flex-col"
+                    >
+                      <div class="flex justify-end w-full">
                         <button
                           type="button"
                           @click="closeModal"
-                          class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
+                          class="p-2 border border-gray-300 rounded-full hover:bg-gray-100"
                         >
-                          Cancel
-                        </button>
-
-                        <button
-                          type="submit"
-                          class="px-4 py-2 bg-black text-white rounded hover:bg-blue-700"
-                        >
-                          Add
+                          <img
+                            src="../../assets/svgs/cancel.svg"
+                            class="w-6 h-6"
+                            alt="file icon"
+                          />
                         </button>
                       </div>
-                    </form>
+
+                      <h2 class="text-lg font-semibold mb-4">Add Experience</h2>
+
+                      <form @submit.prevent="addExperience" class="space-y-4">
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Your role at the company</label
+                          >
+
+                          <input
+                            v-model="newExperience.role"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            placeholder="your role"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Company’s name</label
+                          >
+
+                          <input
+                            v-model="newExperience.company"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            placeholder="your company name"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Location</label
+                          >
+
+                          <input
+                            v-model="newExperience.location"
+                            placeholder="your location"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+
+                        <div class="flex space-x-4">
+                          <div class="flex-1">
+                            <label class="block font-medium mb-1 text-sm"
+                              >Start date</label
+                            >
+
+                            <input
+                              v-model="newExperience.startDate"
+                              type="month"
+                              placeholder="MM-YYYY"
+                              class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+
+                          <div class="flex-1">
+                            <label class="block font-medium mb-1 text-sm"
+                              >End date</label
+                            >
+
+                            <input
+                              v-model="newExperience.endDate"
+                              type="month"
+                              placeholder="MM-YYYY"
+                              class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label class="block font-medium mb-1 text-sm"
+                            >Description</label
+                          >
+
+                          <textarea
+                            v-model="newExperience.description"
+                            class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            rows="4"
+                          ></textarea>
+                        </div>
+
+                        <div class="flex justify-between text-sm space-x-4">
+                          <button
+                            type="button"
+                            @click="closeModal"
+                            class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
+                          >
+                            Cancel
+                          </button>
+
+                          <button
+                            type="submit"
+                            class="px-4 py-2 bg-black text-white rounded hover:bg-blue-700"
+                          >
+                            Add
+                          </button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
