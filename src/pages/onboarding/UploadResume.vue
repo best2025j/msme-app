@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const file = ref<File | null>(null);
 const dragActive = ref(false);
@@ -71,6 +73,7 @@ const resetUpload = () => {
   uploadDurationSec.value = 0;
 };
 
+//
 const startUpload = (selectedFile: File) => {
   file.value = selectedFile;
   uploadProgress.value = 0;
@@ -82,17 +85,16 @@ const startUpload = (selectedFile: File) => {
 
   if (uploadInterval.value) clearInterval(uploadInterval.value);
 
-  // Update progress every second
+  // Update progress every 3 seconds
   uploadInterval.value = window.setInterval(() => {
     uploadDurationSec.value++;
-    // Calculate progress percentage
     const uploadedMB = uploadSpeedMBps.value * uploadDurationSec.value;
     const totalMB = file.value ? file.value.size / (1024 * 1024) : 1;
     uploadProgress.value = Math.min(100, (uploadedMB / totalMB) * 100);
 
     if (uploadProgress.value >= 100) {
-      // Upload finished
       finishUpload();
+      router.push("/onboarding/profession"); // ✅ navigate properly
     }
   }, 3000);
 };
@@ -147,7 +149,7 @@ const formatFileSize = (bytes: number): string => {
           for="fileUpload"
           class="inline-block bg-[#ECECEC] text-[#00000080] font-medium px-4 py-2 rounded cursor-pointer transition"
         >
-           Select file
+          Select file
         </label>
         <input
           id="fileUpload"

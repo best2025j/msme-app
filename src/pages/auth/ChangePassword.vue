@@ -9,7 +9,7 @@ const goToUser = () => {
 </script>
 
 <template>
-  <div class="p-13 bg-white w-[80%] h-[900px] mx-auto flex gap-6">
+  <div class="p-13 bg-white w-[80%] h-[700px] mx-auto flex gap-6">
     <div class="w-[50%]">
       <div
         class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"

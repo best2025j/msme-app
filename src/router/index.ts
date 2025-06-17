@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/auth/change-password", component: ChangePassword },
   { path: "/auth/email-verification", component: EmailVerification },
   { path: "/onboarding/user", component: User },
-  { path: "/onboarding/uploadresume", component: UploadResume },
+  { path: "/onboarding/upload-resume", component: UploadResume },
   { path: "/onboarding/profession", component: Profession },
   { path: "/onboarding/summary", component: Summary },
 ];
