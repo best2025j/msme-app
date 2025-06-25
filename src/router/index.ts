@@ -4,7 +4,8 @@ import type { RouteRecordRaw } from "vue-router";
 
 import Home from "../pages/Home.vue";
 import Login from "../pages/auth/Login.vue";
-import Signup from "../pages/auth/Signup.vue";
+import TalentSignup from "../pages/auth/talent/Signup.vue";
+import RecruiterSignup from "../pages/auth/recruiter/Signup.vue";
 import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import ResetPin from "../pages/auth/ResetPin.vue";
 import Completed from "../pages/onboarding/Completed.vue";
@@ -19,8 +20,9 @@ import Summary from "../pages/onboarding/Summary.vue";
 // 👇 Add RouteRecordRaw type here
 const routes: RouteRecordRaw[] = [
   { path: "/", component: Home },
+  { path: "/auth/talent-signup", component: TalentSignup },
+  { path: "/auth/recruiter-signup", component: RecruiterSignup },
   { path: "/auth/login", component: Login },
-  { path: "/auth/signup", component: Signup },
   { path: "/auth/forgot-password", component: ForgotPassword },
   { path: "/auth/reset-pin", component: ResetPin },
   { path: "/onboarding/completed", component: Completed },

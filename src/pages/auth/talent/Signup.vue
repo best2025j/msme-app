@@ -5,9 +5,11 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const API_URL = "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/login";
+const API_URL =
+  "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/talent-signup";
 
 const email = ref("");
+const fullName = ref("");
 const password = ref("");
 const loading = ref(false);
 const error = ref("");
@@ -20,6 +22,7 @@ const login = async () => {
 
   try {
     const response = await axios.post(API_URL, {
+      name: fullName.value,
       email: email.value,
       password: password.value,
     });
@@ -61,6 +64,16 @@ const login = async () => {
 
         <form @submit.prevent="login">
           <div class="space-y-4 py-4">
+            <div class="flex flex-col space-y-2">
+              <label for="">Full name</label>
+              <input
+                v-model="fullName"
+                type="text"
+                autocomplete="off"
+                placeholder="Owojori Habeebah"
+                class="bg-[#FAFAFA] h-10 capitalize rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
+              />
+            </div>
             <div class="flex flex-col space-y-2">
               <label for="">Email</label>
               <input
@@ -112,9 +125,7 @@ const login = async () => {
 
             <h1 class="text-[#00000080] text-center">
               Don’t have an account?
-              <a href="/auth/recruiter-signup "
-                ><b class="text-black">Sign up here</b></a
-              >
+              <a href="/auth/login "><b class="text-black">Sign up here</b></a>
             </h1>
           </div>
         </form>
@@ -125,23 +136,23 @@ const login = async () => {
     <div class="w-1/2 md:block hidden">
       <div class="relative">
         <img
-          src="../../assets/images/image.png"
+          src="../../../assets/images/mansmile.png"
           class="w-full h-full object-cover"
           alt=""
         />
 
-        <div class="absolute top-10 transform translate-x-6">
-          <img src="../../assets/images/chatBox.png" />
+        <div class="absolute top-10 transform translate-x-6 hover:scale-105">
+          <img src="../../../assets/images/chatBox.png" />
           <div class="flex gap-3 items-center absolute top-3 left-3">
-            <img src="../../assets/images/maleAvatar.png" />
+            <img src="../../../assets/images/maleAvatar.png" />
             <h1 class="text-xs">Seeking role?</h1>
           </div>
         </div>
 
-        <div class="absolute bottom-14 right-6">
-          <img src="../../assets/images/chatBox2.png" class="" />
-          <div class="flex gap-3 items-center absolute top-3 left-3">
-            <img src="../../assets/images/femaleAvatar.png" />
+        <div class="absolute bottom-14 right-6 hover:scale-105">
+          <img src="../../../assets/images/chatBox2.png" class="" />
+          <div class="flex gap-3 items-center absolute top-3 left-3 text-white">
+            <img src="../../../assets/images/femaleAvatar.png" />
             <h1 class="text-xs">Professional?</h1>
           </div>
         </div>

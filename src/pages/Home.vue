@@ -3,12 +3,12 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const login = () => {
-  router.push("/auth/login");
+const RecruiterSignup = () => {
+  router.push("/auth/recruiter-signup");
 };
 
-const signup = () => {
-  router.push("/auth/signup");
+const TalentSignup = () => {
+  router.push("/auth/talent-signup");
 };
 </script>
 
@@ -22,7 +22,7 @@ const signup = () => {
       <div class="flex md:flex-row flex-col gap-6 w-full">
         <!-- Recruiter Card -->
         <div
-          @click="signup"
+          @click="RecruiterSignup"
           class="py-4 cursor-pointer hover:scale-105 transition w-full"
         >
           <div class="space-y-2">
@@ -42,7 +42,7 @@ const signup = () => {
 
         <!-- Talent Card -->
         <div
-          @click="login"
+          @click="TalentSignup"
           class="py-4 cursor-pointer hover:scale-105 transition w-full"
         >
           <div class="space-y-2">
