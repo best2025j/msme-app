@@ -5,13 +5,15 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const API_URL = "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/login";
+const API_URL =
+  "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/signin";
 
 const email = ref("");
 const password = ref("");
 const loading = ref(false);
 const error = ref("");
 const success = ref(false);
+const userType = ref("");
 
 const login = async () => {
   loading.value = true;
@@ -22,6 +24,7 @@ const login = async () => {
     const response = await axios.post(API_URL, {
       email: email.value,
       password: password.value,
+      type: userType.value, // this is what backend expects
     });
 
     success.value = true;
@@ -31,7 +34,7 @@ const login = async () => {
     localStorage.setItem("token", response.data.token);
 
     // Redirect to dashboard or homepage
-    router.push("/onboarding/user");
+    router.push({ path: "/auth/verify-email", query: { email: email.value } });
 
     // Clear form
     email.value = "";
@@ -41,6 +44,12 @@ const login = async () => {
     console.error("❌ Login Error:", error.value);
   } finally {
     loading.value = false;
+  }
+
+  // validation
+  if (!email.value || !password.value || !userType.value) {
+    error.value = "All fields are required.";
+    return;
   }
 };
 </script>
@@ -80,6 +89,20 @@ const login = async () => {
                 class="bg-[#FAFAFA] h-10 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
               />
             </div>
+
+            <div class="flex flex-col space-y-2">
+              <label for="role">Login as</label>
+              <select
+                id="role"
+                v-model="userType"
+                class="bg-[#FAFAFA] h-10 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 pl-4"
+              >
+                <option disabled value="">Select user type</option>
+                <option value="RECRUITER">Recruiter</option>
+                <option value="TALENT">Talent</option>
+              </select>
+            </div>
+
             <div v-if="error" class="text-red-500 text-sm">{{ error }}</div>
             <div v-if="success" class="text-green-500 text-sm">
               Login successful!

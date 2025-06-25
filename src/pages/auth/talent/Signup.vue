@@ -33,8 +33,8 @@ const login = async () => {
     // Optionally save token to localStorage
     localStorage.setItem("token", response.data.token);
 
-    // Redirect to dashboard or homepage
-    router.push("/onboarding/user");
+    // Redirect to verify-mail
+    router.push({ path: "/auth/verify-email", query: { email: email.value } });
 
     // Clear form
     email.value = "";

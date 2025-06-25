@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const API_URL =
   "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/recruiter-signup";
@@ -38,6 +41,9 @@ const submitSignup = async () => {
     password.value = "";
     companyName.value = "";
     roleInCompany.value = "";
+
+    // Redirect to verify-mail
+    router.push({ path: "/auth/verify-email", query: { email: email.value } });
 
     //
   } catch (err: any) {
@@ -132,9 +138,7 @@ const submitSignup = async () => {
           <div class="text-sm">
             <h1 class="text-[#00000080] text-center">
               Already have an account
-              <a href="/auth/login"
-                ><b class="text-black">Sign in here</b></a
-              >
+              <a href="/auth/login"><b class="text-black">Sign in here</b></a>
             </h1>
           </div>
         </form>
@@ -144,7 +148,11 @@ const submitSignup = async () => {
     <!--  -->
     <div class="w-1/2 md:block hidden">
       <div class="relative">
-        <img src="../../../assets/images/mansmile.png" class="w-full" alt="not shown" />
+        <img
+          src="../../../assets/images/mansmile.png"
+          class="w-full"
+          alt="not shown"
+        />
         <!--  -->
         <button
           class="absolute hover:scale-105 cursor-pointer top-4 transform translate-x-6 bg-white w-14 h-14 rounded-full flex justify-center p-4 right-14"
