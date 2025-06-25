@@ -16,6 +16,11 @@ const success = ref(false);
 const userType = ref("");
 
 const login = async () => {
+  if (!email.value || !password.value || !userType.value) {
+    error.value = "All fields are required.";
+    return;
+  }
+
   loading.value = true;
   error.value = "";
   success.value = false;
@@ -24,17 +29,25 @@ const login = async () => {
     const response = await axios.post(API_URL, {
       email: email.value,
       password: password.value,
-      type: userType.value, // this is what backend expects
+      type: userType.value, // Ensure this matches the backend enum: RECRUITER | TALENT | ADMIN
     });
 
     success.value = true;
     console.log("✅ Login Success:", response.data);
 
-    // Optionally save token to localStorage
-    localStorage.setItem("token", response.data.token);
+    const token = response.data?.data?.token;
 
-    // Redirect to dashboard or homepage
-    router.push({ path: "/auth/verify-email", query: { email: email.value } });
+    if (token) {
+      localStorage.setItem("token", token);
+      console.log("✅ Token stored:", token);
+
+      router.push({
+        path: "/auth/verify-email",
+        query: { email: email.value },
+      });
+    } else {
+      throw new Error("Token missing in response.");
+    }
 
     // Clear form
     email.value = "";
@@ -44,12 +57,6 @@ const login = async () => {
     console.error("❌ Login Error:", error.value);
   } finally {
     loading.value = false;
-  }
-
-  // validation
-  if (!email.value || !password.value || !userType.value) {
-    error.value = "All fields are required.";
-    return;
   }
 };
 </script>

@@ -44,16 +44,16 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+// router.beforeEach((to, from, next) => {
+//   const token = localStorage.getItem("token");
+//   const role = localStorage.getItem("role");
 
-  // Example: block access to dashboard if not logged in
-  if (to.path.includes("/dashboard") && !token) {
-    next("/auth/login");
-  } else {
-    next();
-  }
-});
+//   // Example: block access to dashboard if not logged in
+//   if (to.path.includes("/dashboard") && !token) {
+//     next("/auth/login");
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

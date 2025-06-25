@@ -13,16 +13,26 @@ const inputs = ref<(HTMLInputElement | null)[]>([]);
 const loading = ref(false);
 const error = ref("");
 
-// API endpoint
-const API_URL =
+// API URLs endpoint
+const VERIFY_URL =
   "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/verify-email";
+const RESEND_URL =
+  "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/resend-token";
 
 // Submit pin for verification
 const verifyPin = async () => {
   const fullPin = pin.value.join("");
 
   if (fullPin.length !== 6) {
-    alert("Please enter the full 6-digit code.");
+    alert("Please enter the 6-digit code.");
+    return;
+  }
+
+  const token = localStorage.getItem("token");
+  console.log("Retrieved token:", token);
+
+  if (!token) {
+    alert("No token found. Please log in again.");
     return;
   }
 
@@ -30,31 +40,39 @@ const verifyPin = async () => {
   error.value = "";
 
   try {
-    const response = await axios.post(API_URL, {
-      email: email.value,
-      code: fullPin,
-    });
+    const response = await axios.patch(
+      VERIFY_URL,
+      {
+        email: email.value,
+        code: fullPin,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-    const { token, isVerified } = response.data.data;
+    console.log("✅ Verification success:", response.data);
 
-    // Save token if needed
-    localStorage.setItem("token", token);
+    if (response.data.status && response.data.code === 200) {
+      // Save new token from response (if present)
+      const newToken = response.data?.data?.token;
+      if (newToken) {
+        localStorage.setItem("token", newToken);
+      }
 
-    console.log("✅ Email verified successfully!");
-    alert("✅ Email verified!");
-
-    // Clear PIN inputs
-    pin.value = ["", "", "", "", "", ""];
-
-    // Redirect to onboarding or wherever next
-    if (isVerified) {
-      router.push("/onboarding/user");
+      alert("✅ Email verified successfully!");
+      router.push({ path: "/onboarding/user" });
+    } else {
+      alert("⚠️ " + response.data.message);
     }
   } catch (err: any) {
     error.value = err.response?.data?.message || "Verification failed.";
     alert("❌ " + error.value);
   } finally {
     loading.value = false;
+    pin.value = ["", "", "", "", "", ""]; // Clear pin input
   }
 };
 
@@ -63,25 +81,15 @@ onMounted(() => {
   inputs.value[0]?.focus();
 });
 
-// Resend code 
+// Resend code
 const resendCode = async () => {
-  // if (!email.value) {
-  //   alert("Email is required to resend code.");
-  //   return;
-  // }
-
   try {
-    await axios.post(
-      "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/resend-token",
-      { email: email.value }
-    );
+    await axios.patch(RESEND_URL, {
+      email: email.value,
+    });
     alert("📩 A new code was sent to " + email.value);
   } catch (err: any) {
-    console.error("❌ Resend code error:", err.response?.data || err.message);
-    alert(
-      "❌ Failed to resend code: " +
-        (err.response?.data?.message || err.message)
-    );
+    alert("❌ Failed to resend code.");
   }
 };
 
