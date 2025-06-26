@@ -15,6 +15,8 @@ const nextStep = () => {
     router.push("/onboarding/completed");
   }
 };
+
+
 const prevStep = () => currentStep.value > 1 && currentStep.value--;
 
 // --- Form Selections ---
@@ -101,9 +103,11 @@ const isCertificationModalOpen = ref(false);
 // experience
 const openExperienceModal = () => (isExperienceModalOpen.value = true);
 const closeExperienceModal = () => (isExperienceModalOpen.value = false);
+
 // education
 const openEducationModal = () => (isEducationModalOpen.value = true);
 const closeEducationModal = () => (isEducationModalOpen.value = false);
+
 // certifications
 const openCertificationModal = () => (isCertificationModalOpen.value = true);
 const closeCertificationModal = () => (isCertificationModalOpen.value = false);

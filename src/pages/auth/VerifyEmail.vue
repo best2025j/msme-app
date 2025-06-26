@@ -6,12 +6,14 @@ import axios from "axios";
 // Setup
 const router = useRouter();
 const route = useRoute();
-const email = ref((route.query.email as string) || "");
 
 const pin = ref<string[]>(["", "", "", "", "", ""]);
 const inputs = ref<(HTMLInputElement | null)[]>([]);
+
 const loading = ref(false);
 const error = ref("");
+
+const email = ref((route.query.email as string) || "");
 
 // API URLs endpoint
 const VERIFY_URL =

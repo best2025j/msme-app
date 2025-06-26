@@ -20,6 +20,7 @@ const TalentSignup = () => {
       </h1>
 
       <div class="flex md:flex-row flex-col gap-6 w-full">
+        
         <!-- Recruiter Card -->
         <div
           @click="RecruiterSignup"

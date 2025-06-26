@@ -1,14 +1,56 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
+
+// Setup
 const router = useRouter();
 
-const goToResetPin = () => {
-  router.push("/auth/reset-pin");
+// State
+const email = ref("");
+const loading = ref(false);
+const error = ref("");
+
+// API Endpoint
+const API_URL =
+  "https://careerbox-dev-api-89uwx.ondigitalocean.app/auth/forgot-password";
+
+// Submit handler
+const submitForgotPassword = async () => {
+  // Basic validation
+  if (!email.value.trim() || !email.value.includes("@")) {
+    error.value = "Please enter a valid email address.";
+    return;
+  }
+
+  loading.value = true;
+  error.value = "";
+
+  try {
+    const response = await axios.patch(API_URL, { email: email.value });
+
+    if (response.data.status && response.data.code === 200) {
+      alert("✅ Reset code sent to your email.");
+
+      router.push({
+        path: "/auth/verify-email",
+        query: { email: email.value },
+      });
+    } else {
+      error.value = response.data.message || "An error occurred.";
+    }
+  } catch (err: any) {
+    error.value = err.response?.data?.message || "Failed to send reset code.";
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
 <template>
-  <div class="p-6 md:p-13 bg-white w-full md:w-[80%] md:h-[700px] mx-auto flex gap-6">
+  <div
+    class="p-6 md:p-13 bg-white w-full md:w-[80%] md:h-[700px] mx-auto flex gap-6"
+  >
     <div class="md:w-[50%]">
       <div
         class="max-w-[470px] flex justify-center flex-col mx-auto h-full space-y-3"
@@ -18,23 +60,27 @@ const goToResetPin = () => {
           No worries, we would send you a rest pin to change your password.
         </p>
 
-        <form action="" @submit.prevent="">
+        <form @submit.prevent="submitForgotPassword">
           <div class="space-y-4 py-4">
             <div class="flex flex-col space-y-2">
-              <label for="">Email</label>
+              <label for="email">Email</label>
               <input
-                type="text"
+                id="email"
+                type="email"
+                v-model="email"
                 placeholder="Johndoe@doe.com@gmail.com"
                 class="bg-[#FAFAFA] h-10 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-sm pl-4 placeholder:text-[#0000004D]/30"
               />
+              <span v-if="error" class="text-red-500 text-sm">{{ error }}</span>
             </div>
+
             <div class="py-4">
               <button
                 type="submit"
-                @click="goToResetPin"
                 class="bg-[#000000] text-sm cursor-pointer font-medium text-white rounded h-10 w-full"
+                :disabled="loading"
               >
-                Reset password
+                {{ loading ? "Sending..." : "Reset password" }}
               </button>
             </div>
           </div>
